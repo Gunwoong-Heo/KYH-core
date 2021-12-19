@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -55,10 +56,11 @@ public class SingletonWithPrototypeTest1 {
 
         @Autowired
 //        private ObjectFactory<PrototypeBean> prototypeBeanProvider;
-        private ObjectProvider<PrototypeBean> prototypeBeanProvider; // ObjectFactory 상속, 옵션, 스트림 처리등 편의 기능이 많고, 별도의 라이브러리 필요없음, 스프링에 의존
+//        private ObjectProvider<PrototypeBean> prototypeBeanProvider; // ObjectFactory 상속, 옵션, 스트림 처리등 편의 기능이 많고, 별도의 라이브러리 필요없음, 스프링에 의존
+        private Provider<PrototypeBean> prototypeBeanProvider;
 
         public int logic() {
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject(); // .getObject() 호출 시점에 springContainer에서 PrototypeBean을 찾아서 반환해줌
+            PrototypeBean prototypeBean = prototypeBeanProvider.get(); // .getObject() 호출 시점에 springContainer에서 PrototypeBean을 찾아서 반환해줌
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
